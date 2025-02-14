@@ -41,6 +41,29 @@ jobs:
         curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
         sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
+    - name: Generate kubeconfig
+      run: |
+        cat <<EOF > kubeconfig.yaml
+        apiVersion: v1
+        kind: Config
+        clusters:
+        - name: minikube
+          cluster:
+            server: ${{ secrets.K8S_SERVER }}
+            certificate-authority-data: ${{ secrets.K8S_CA_CERT }}
+        users:
+        - name: cicd-sa
+          user:
+            token: ${{ secrets.K8S_TOKEN }}
+        contexts:
+        - name: cicd-<contexte>
+          context:
+            cluster: minikube
+            user: cicd-sa
+        current-context: cicd-<contexte>
+        EOF
+
+
     - name: Vérifier les fichiers présents (Debug)
       run: ls -R
 
