@@ -11,7 +11,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
 
     - name: Install dependencies
       run: npm install
@@ -31,8 +31,11 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-
+    
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
     - name: Install kubectl
       run: |
         curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
