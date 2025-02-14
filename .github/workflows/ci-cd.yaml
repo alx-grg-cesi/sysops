@@ -11,7 +11,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Install dependencies
       run: npm install
@@ -44,5 +44,5 @@ jobs:
     - name: Deploy to Kubernetes
       run: |
         kubectl version --client
-        kubectl apply -f ${GITHUB_WORKSPACE}/k8s/deployment.yaml
-        kubectl apply -f ${GITHUB_WORKSPACE}/k8s/service.yaml
+        kubectl apply -f k8s/deployment.yaml
+        kubectl apply -f k8s/service.yaml
