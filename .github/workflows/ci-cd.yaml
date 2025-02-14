@@ -31,14 +31,21 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-
+    
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
     - name: Install kubectl
       run: |
         curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
         sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
+    - name: Vérifier les fichiers présents (Debug)
+      run: ls -R
+
     - name: Deploy to Kubernetes
       run: |
+        kubectl version --client
         kubectl apply -f k8s/deployment.yaml
         kubectl apply -f k8s/service.yaml
