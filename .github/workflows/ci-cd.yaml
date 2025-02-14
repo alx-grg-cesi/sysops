@@ -63,7 +63,11 @@ jobs:
         current-context: cicd-<contexte>
         EOF
 
-
+    - name: Configurer KUBECONFIG
+      run: |
+        export KUBECONFIG=$PWD/kubeconfig.yaml
+        kubectl config view
+        
     - name: Vérifier les fichiers présents (Debug)
       run: ls -R
 
